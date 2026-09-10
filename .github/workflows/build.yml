@@ -9,13 +9,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - uses: android-actions/setup-android@v3
-      - name: Make gradlew
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: 8.5
+      - name: Build APK
         run: |
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
-      - name: Build APK
-        run:./gradlew assembleDebug
+         ./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
