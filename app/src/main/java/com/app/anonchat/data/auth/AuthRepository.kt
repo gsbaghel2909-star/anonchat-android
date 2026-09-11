@@ -5,8 +5,8 @@ import com.app.anonchat.domain.model.AuthResult
 import com.app.anonchat.domain.model.LoginRequest
 import com.app.anonchat.domain.model.SignUpRequest
 import io.github.jan.supabase.SupabaseClient
-import io.github.jan.supabase.gotrue.auth
-import io.github.jan.supabase.gotrue.providers.builtin.Email
+import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.providers.builtin.Email
 import io.ktor.client.call.body
 import io.ktor.client.request.header
 import io.ktor.client.request.post
