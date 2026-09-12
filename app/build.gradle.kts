@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -7,6 +10,13 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+val localProperties = Properties().apply {
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        FileInputStream(localPropertiesFile).use { load(it) }
+    }
+}
+
 android {
     namespace = "com.app.anonchat"
     compileSdk = 35
@@ -14,14 +24,29 @@ android {
     defaultConfig {
         applicationId = "com.app.anonchat"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "0.1.0-phase1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "SUPABASE_URL", "\"${project.findProperty("SUPABASE_URL") ?: ""}\"")
-        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${project.findProperty("SUPABASE_ANON_KEY") ?: ""}\"")
+        val supabaseUrl = (localProperties.getProperty("SUPABASE_URL")
+            ?: project.findProperty("SUPABASE_URL") as String?
+            ?: "")
+        val supabaseAnonKey = (localProperties.getProperty("SUPABASE_ANON_KEY")
+            ?: project.findProperty("SUPABASE_ANON_KEY") as String?
+            ?: "")
+        if (supabaseUrl.isBlank() || supabaseAnonKey.isBlank()) {
+            throw GradleException(
+                "SUPABASE_URL / SUPABASE_ANON_KEY are missing.\n" +
+                "Add them to local.properties (project root), e.g.:\n" +
+                "  SUPABASE_URL=https://your-project.supabase.co\n" +
+                "  SUPABASE_ANON_KEY=your-anon-key"
+            )
+        }
+
+        buildConfigField("String", "SUPABASE_URL", "\"$supabaseUrl\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"$supabaseAnonKey\"")
     }
 
     buildTypes {
