@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.app.anonchat.ui.auth.LoginScreen
 import com.app.anonchat.ui.auth.SignUpScreen
 import com.app.anonchat.ui.profile.ProfileSetupScreen
+import com.app.anonchat.ui.contacts.ContactsScreen
 
 sealed class Screen(val route: String) {
     data object Login : Screen("login")
@@ -49,7 +50,7 @@ fun AnonChatNavHost(navController: NavHostController = rememberNavController()) 
             )
         }
         composable(Screen.Home.route) {
-            com.app.anonchat.ui.HomePlaceholderScreen()
+            ContactsScreen()
         }
     }
 }
