@@ -3,6 +3,7 @@ package com.app.anonchat;
 import com.app.anonchat.core.di.NetworkModule;
 import com.app.anonchat.core.network.SupabaseModule;
 import com.app.anonchat.ui.auth.AuthViewModel_HiltModules;
+import com.app.anonchat.ui.contacts.ContactsViewModel_HiltModules;
 import com.app.anonchat.ui.profile.ProfileSetupViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
@@ -159,6 +160,7 @@ public final class AnonChatApplication_HiltComponents {
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class,
           AuthViewModel_HiltModules.KeyModule.class,
+          ContactsViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
           ProfileSetupViewModel_HiltModules.KeyModule.class
@@ -198,6 +200,7 @@ public final class AnonChatApplication_HiltComponents {
   @Subcomponent(
       modules = {
           AuthViewModel_HiltModules.BindsModule.class,
+          ContactsViewModel_HiltModules.BindsModule.class,
           HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
           ProfileSetupViewModel_HiltModules.BindsModule.class
       }

@@ -3,6 +3,7 @@ package com.app.anonchat;
 import com.app.anonchat.core.di.NetworkModule;
 import com.app.anonchat.core.network.SupabaseModule;
 import com.app.anonchat.ui.auth.AuthViewModel_HiltModules;
+import com.app.anonchat.ui.profile.ProfileSetupViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
 import dagger.Module;
@@ -159,7 +160,8 @@ public final class AnonChatApplication_HiltComponents {
           ViewModelCBuilderModule.class,
           AuthViewModel_HiltModules.KeyModule.class,
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
-          HiltWrapper_SavedStateHandleModule.class
+          HiltWrapper_SavedStateHandleModule.class,
+          ProfileSetupViewModel_HiltModules.KeyModule.class
       }
   )
   @ActivityRetainedScoped
@@ -196,7 +198,8 @@ public final class AnonChatApplication_HiltComponents {
   @Subcomponent(
       modules = {
           AuthViewModel_HiltModules.BindsModule.class,
-          HiltWrapper_HiltViewModelFactory_ViewModelModule.class
+          HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
+          ProfileSetupViewModel_HiltModules.BindsModule.class
       }
   )
   @ViewModelScoped
