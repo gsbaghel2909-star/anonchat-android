@@ -2,6 +2,7 @@ package com.app.anonchat.ui.contacts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.app.anonchat.data.chat.ChatRepository
 import com.app.anonchat.data.contacts.ContactWithProfile
 import com.app.anonchat.data.contacts.ContactsRepository
 import com.app.anonchat.domain.model.AuthResult
@@ -12,17 +13,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class OpenChatTarget(val conversationId: String, val otherUsername: String)
+
 data class ContactsUiState(
     val isLoading: Boolean = true,
     val contacts: List<ContactWithProfile> = emptyList(),
     val searchUsername: String = "",
     val searchMessage: String? = null,
-    val isSearching: Boolean = false
+    val isSearching: Boolean = false,
+    val openChatTarget: OpenChatTarget? = null
 )
 
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
-    private val contactsRepository: ContactsRepository
+    private val contactsRepository: ContactsRepository,
+    private val chatRepository: ChatRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ContactsUiState())
@@ -91,5 +96,24 @@ class ContactsViewModel @Inject constructor(
             contactsRepository.removeContact(contactId)
             refresh()
         }
+    }
+
+    fun openChat(otherUserId: String, otherUsername: String) {
+        viewModelScope.launch {
+            when (val result = chatRepository.getOrCreateConversationId(otherUserId)) {
+                is AuthResult.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        openChatTarget = OpenChatTarget(result.data, otherUsername)
+                    )
+                }
+                is AuthResult.Failure -> {
+                    _uiState.value = _uiState.value.copy(searchMessage = result.message)
+                }
+            }
+        }
+    }
+
+    fun consumeOpenChatTarget() {
+        _uiState.value = _uiState.value.copy(openChatTarget = null)
     }
 }

@@ -23,6 +23,8 @@ import hilt_aggregated_deps._com_app_anonchat_core_di_NetworkModule;
 import hilt_aggregated_deps._com_app_anonchat_core_network_SupabaseModule;
 import hilt_aggregated_deps._com_app_anonchat_ui_auth_AuthViewModel_HiltModules_BindsModule;
 import hilt_aggregated_deps._com_app_anonchat_ui_auth_AuthViewModel_HiltModules_KeyModule;
+import hilt_aggregated_deps._com_app_anonchat_ui_chat_ChatViewModel_HiltModules_BindsModule;
+import hilt_aggregated_deps._com_app_anonchat_ui_chat_ChatViewModel_HiltModules_KeyModule;
 import hilt_aggregated_deps._com_app_anonchat_ui_contacts_ContactsViewModel_HiltModules_BindsModule;
 import hilt_aggregated_deps._com_app_anonchat_ui_contacts_ContactsViewModel_HiltModules_KeyModule;
 import hilt_aggregated_deps._com_app_anonchat_ui_profile_ProfileSetupViewModel_HiltModules_BindsModule;
@@ -73,6 +75,8 @@ import hilt_aggregated_deps._dagger_hilt_android_internal_modules_HiltWrapper_Ac
         _com_app_anonchat_core_network_SupabaseModule.class,
         _com_app_anonchat_ui_auth_AuthViewModel_HiltModules_BindsModule.class,
         _com_app_anonchat_ui_auth_AuthViewModel_HiltModules_KeyModule.class,
+        _com_app_anonchat_ui_chat_ChatViewModel_HiltModules_BindsModule.class,
+        _com_app_anonchat_ui_chat_ChatViewModel_HiltModules_KeyModule.class,
         _com_app_anonchat_ui_contacts_ContactsViewModel_HiltModules_BindsModule.class,
         _com_app_anonchat_ui_contacts_ContactsViewModel_HiltModules_KeyModule.class,
         _com_app_anonchat_ui_profile_ProfileSetupViewModel_HiltModules_BindsModule.class,

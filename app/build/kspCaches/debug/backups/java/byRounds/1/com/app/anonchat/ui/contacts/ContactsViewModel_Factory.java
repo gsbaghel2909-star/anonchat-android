@@ -1,5 +1,6 @@
 package com.app.anonchat.ui.contacts;
 
+import com.app.anonchat.data.chat.ChatRepository;
 import com.app.anonchat.data.contacts.ContactsRepository;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
@@ -26,21 +27,27 @@ import javax.inject.Provider;
 public final class ContactsViewModel_Factory implements Factory<ContactsViewModel> {
   private final Provider<ContactsRepository> contactsRepositoryProvider;
 
-  public ContactsViewModel_Factory(Provider<ContactsRepository> contactsRepositoryProvider) {
+  private final Provider<ChatRepository> chatRepositoryProvider;
+
+  public ContactsViewModel_Factory(Provider<ContactsRepository> contactsRepositoryProvider,
+      Provider<ChatRepository> chatRepositoryProvider) {
     this.contactsRepositoryProvider = contactsRepositoryProvider;
+    this.chatRepositoryProvider = chatRepositoryProvider;
   }
 
   @Override
   public ContactsViewModel get() {
-    return newInstance(contactsRepositoryProvider.get());
+    return newInstance(contactsRepositoryProvider.get(), chatRepositoryProvider.get());
   }
 
   public static ContactsViewModel_Factory create(
-      Provider<ContactsRepository> contactsRepositoryProvider) {
-    return new ContactsViewModel_Factory(contactsRepositoryProvider);
+      Provider<ContactsRepository> contactsRepositoryProvider,
+      Provider<ChatRepository> chatRepositoryProvider) {
+    return new ContactsViewModel_Factory(contactsRepositoryProvider, chatRepositoryProvider);
   }
 
-  public static ContactsViewModel newInstance(ContactsRepository contactsRepository) {
-    return new ContactsViewModel(contactsRepository);
+  public static ContactsViewModel newInstance(ContactsRepository contactsRepository,
+      ChatRepository chatRepository) {
+    return new ContactsViewModel(contactsRepository, chatRepository);
   }
 }

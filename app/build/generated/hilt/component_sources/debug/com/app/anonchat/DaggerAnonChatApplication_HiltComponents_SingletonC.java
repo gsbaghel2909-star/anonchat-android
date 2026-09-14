@@ -10,10 +10,13 @@ import com.app.anonchat.core.di.NetworkModule_ProvideEdgeFunctionsBaseUrlFactory
 import com.app.anonchat.core.di.NetworkModule_ProvideFunctionsHttpClientFactory;
 import com.app.anonchat.core.network.SupabaseModule_ProvideSupabaseClientFactory;
 import com.app.anonchat.data.auth.AuthRepository;
+import com.app.anonchat.data.chat.ChatRepository;
 import com.app.anonchat.data.contacts.ContactsRepository;
 import com.app.anonchat.data.profile.ProfileRepository;
 import com.app.anonchat.ui.auth.AuthViewModel;
 import com.app.anonchat.ui.auth.AuthViewModel_HiltModules;
+import com.app.anonchat.ui.chat.ChatViewModel;
+import com.app.anonchat.ui.chat.ChatViewModel_HiltModules;
 import com.app.anonchat.ui.contacts.ContactsViewModel;
 import com.app.anonchat.ui.contacts.ContactsViewModel_HiltModules;
 import com.app.anonchat.ui.profile.ProfileSetupViewModel;
@@ -385,7 +388,7 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
 
     @Override
     public Map<Class<?>, Boolean> getViewModelKeys() {
-      return LazyClassKeyMap.<Boolean>of(MapBuilder.<String, Boolean>newMapBuilder(3).put(LazyClassKeyProvider.com_app_anonchat_ui_auth_AuthViewModel, AuthViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_app_anonchat_ui_contacts_ContactsViewModel, ContactsViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_app_anonchat_ui_profile_ProfileSetupViewModel, ProfileSetupViewModel_HiltModules.KeyModule.provide()).build());
+      return LazyClassKeyMap.<Boolean>of(MapBuilder.<String, Boolean>newMapBuilder(4).put(LazyClassKeyProvider.com_app_anonchat_ui_auth_AuthViewModel, AuthViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_app_anonchat_ui_chat_ChatViewModel, ChatViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_app_anonchat_ui_contacts_ContactsViewModel, ContactsViewModel_HiltModules.KeyModule.provide()).put(LazyClassKeyProvider.com_app_anonchat_ui_profile_ProfileSetupViewModel, ProfileSetupViewModel_HiltModules.KeyModule.provide()).build());
     }
 
     @Override
@@ -409,6 +412,8 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
 
       static String com_app_anonchat_ui_contacts_ContactsViewModel = "com.app.anonchat.ui.contacts.ContactsViewModel";
 
+      static String com_app_anonchat_ui_chat_ChatViewModel = "com.app.anonchat.ui.chat.ChatViewModel";
+
       static String com_app_anonchat_ui_profile_ProfileSetupViewModel = "com.app.anonchat.ui.profile.ProfileSetupViewModel";
 
       @KeepFieldType
@@ -418,11 +423,16 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
       ContactsViewModel com_app_anonchat_ui_contacts_ContactsViewModel2;
 
       @KeepFieldType
+      ChatViewModel com_app_anonchat_ui_chat_ChatViewModel2;
+
+      @KeepFieldType
       ProfileSetupViewModel com_app_anonchat_ui_profile_ProfileSetupViewModel2;
     }
   }
 
   private static final class ViewModelCImpl extends AnonChatApplication_HiltComponents.ViewModelC {
+    private final SavedStateHandle savedStateHandle;
+
     private final SingletonCImpl singletonCImpl;
 
     private final ActivityRetainedCImpl activityRetainedCImpl;
@@ -430,6 +440,8 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
     private final ViewModelCImpl viewModelCImpl = this;
 
     private Provider<AuthViewModel> authViewModelProvider;
+
+    private Provider<ChatViewModel> chatViewModelProvider;
 
     private Provider<ContactsViewModel> contactsViewModelProvider;
 
@@ -440,7 +452,7 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
         ViewModelLifecycle viewModelLifecycleParam) {
       this.singletonCImpl = singletonCImpl;
       this.activityRetainedCImpl = activityRetainedCImpl;
-
+      this.savedStateHandle = savedStateHandleParam;
       initialize(savedStateHandleParam, viewModelLifecycleParam);
 
     }
@@ -449,13 +461,14 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
     private void initialize(final SavedStateHandle savedStateHandleParam,
         final ViewModelLifecycle viewModelLifecycleParam) {
       this.authViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
-      this.contactsViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
-      this.profileSetupViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.chatViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 1);
+      this.contactsViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 2);
+      this.profileSetupViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 3);
     }
 
     @Override
     public Map<Class<?>, javax.inject.Provider<ViewModel>> getHiltViewModelMap() {
-      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(3).put(LazyClassKeyProvider.com_app_anonchat_ui_auth_AuthViewModel, ((Provider) authViewModelProvider)).put(LazyClassKeyProvider.com_app_anonchat_ui_contacts_ContactsViewModel, ((Provider) contactsViewModelProvider)).put(LazyClassKeyProvider.com_app_anonchat_ui_profile_ProfileSetupViewModel, ((Provider) profileSetupViewModelProvider)).build());
+      return LazyClassKeyMap.<javax.inject.Provider<ViewModel>>of(MapBuilder.<String, javax.inject.Provider<ViewModel>>newMapBuilder(4).put(LazyClassKeyProvider.com_app_anonchat_ui_auth_AuthViewModel, ((Provider) authViewModelProvider)).put(LazyClassKeyProvider.com_app_anonchat_ui_chat_ChatViewModel, ((Provider) chatViewModelProvider)).put(LazyClassKeyProvider.com_app_anonchat_ui_contacts_ContactsViewModel, ((Provider) contactsViewModelProvider)).put(LazyClassKeyProvider.com_app_anonchat_ui_profile_ProfileSetupViewModel, ((Provider) profileSetupViewModelProvider)).build());
     }
 
     @Override
@@ -465,20 +478,25 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
-      static String com_app_anonchat_ui_auth_AuthViewModel = "com.app.anonchat.ui.auth.AuthViewModel";
-
       static String com_app_anonchat_ui_profile_ProfileSetupViewModel = "com.app.anonchat.ui.profile.ProfileSetupViewModel";
 
       static String com_app_anonchat_ui_contacts_ContactsViewModel = "com.app.anonchat.ui.contacts.ContactsViewModel";
 
-      @KeepFieldType
-      AuthViewModel com_app_anonchat_ui_auth_AuthViewModel2;
+      static String com_app_anonchat_ui_chat_ChatViewModel = "com.app.anonchat.ui.chat.ChatViewModel";
+
+      static String com_app_anonchat_ui_auth_AuthViewModel = "com.app.anonchat.ui.auth.AuthViewModel";
 
       @KeepFieldType
       ProfileSetupViewModel com_app_anonchat_ui_profile_ProfileSetupViewModel2;
 
       @KeepFieldType
       ContactsViewModel com_app_anonchat_ui_contacts_ContactsViewModel2;
+
+      @KeepFieldType
+      ChatViewModel com_app_anonchat_ui_chat_ChatViewModel2;
+
+      @KeepFieldType
+      AuthViewModel com_app_anonchat_ui_auth_AuthViewModel2;
     }
 
     private static final class SwitchingProvider<T> implements Provider<T> {
@@ -505,10 +523,13 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
           case 0: // com.app.anonchat.ui.auth.AuthViewModel 
           return (T) new AuthViewModel(singletonCImpl.authRepositoryProvider.get());
 
-          case 1: // com.app.anonchat.ui.contacts.ContactsViewModel 
-          return (T) new ContactsViewModel(singletonCImpl.contactsRepositoryProvider.get());
+          case 1: // com.app.anonchat.ui.chat.ChatViewModel 
+          return (T) new ChatViewModel(singletonCImpl.chatRepositoryProvider.get(), viewModelCImpl.savedStateHandle);
 
-          case 2: // com.app.anonchat.ui.profile.ProfileSetupViewModel 
+          case 2: // com.app.anonchat.ui.contacts.ContactsViewModel 
+          return (T) new ContactsViewModel(singletonCImpl.contactsRepositoryProvider.get(), singletonCImpl.chatRepositoryProvider.get());
+
+          case 3: // com.app.anonchat.ui.profile.ProfileSetupViewModel 
           return (T) new ProfileSetupViewModel(singletonCImpl.profileRepositoryProvider.get());
 
           default: throw new AssertionError(id);
@@ -597,6 +618,8 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
 
     private Provider<AuthRepository> authRepositoryProvider;
 
+    private Provider<ChatRepository> chatRepositoryProvider;
+
     private Provider<ContactsRepository> contactsRepositoryProvider;
 
     private Provider<ProfileRepository> profileRepositoryProvider;
@@ -613,12 +636,13 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
       this.provideFunctionsHttpClientProvider = DoubleCheck.provider(new SwitchingProvider<HttpClient>(singletonCImpl, 2));
       this.provideEdgeFunctionsBaseUrlProvider = DoubleCheck.provider(new SwitchingProvider<String>(singletonCImpl, 3));
       this.authRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<AuthRepository>(singletonCImpl, 0));
-      this.contactsRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ContactsRepository>(singletonCImpl, 4));
-      this.profileRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ProfileRepository>(singletonCImpl, 5));
+      this.chatRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ChatRepository>(singletonCImpl, 4));
+      this.contactsRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ContactsRepository>(singletonCImpl, 5));
+      this.profileRepositoryProvider = DoubleCheck.provider(new SwitchingProvider<ProfileRepository>(singletonCImpl, 6));
     }
 
     @Override
-    public void injectAnonChatApplication(AnonChatApplication anonChatApplication) {
+    public void injectAnonChatApplication(AnonChatApplication arg0) {
     }
 
     @Override
@@ -662,10 +686,13 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
           case 3: // @javax.inject.Named("edgeFunctionsBaseUrl") java.lang.String 
           return (T) NetworkModule_ProvideEdgeFunctionsBaseUrlFactory.provideEdgeFunctionsBaseUrl();
 
-          case 4: // com.app.anonchat.data.contacts.ContactsRepository 
+          case 4: // com.app.anonchat.data.chat.ChatRepository 
+          return (T) new ChatRepository(singletonCImpl.provideSupabaseClientProvider.get());
+
+          case 5: // com.app.anonchat.data.contacts.ContactsRepository 
           return (T) new ContactsRepository(singletonCImpl.provideSupabaseClientProvider.get());
 
-          case 5: // com.app.anonchat.data.profile.ProfileRepository 
+          case 6: // com.app.anonchat.data.profile.ProfileRepository 
           return (T) new ProfileRepository(singletonCImpl.provideSupabaseClientProvider.get());
 
           default: throw new AssertionError(id);

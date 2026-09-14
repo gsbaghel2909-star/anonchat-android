@@ -18,6 +18,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,9 +31,17 @@ import com.app.anonchat.data.contacts.ContactWithProfile
 
 @Composable
 fun ContactsScreen(
+    onOpenChat: (conversationId: String, otherUsername: String) -> Unit,
     viewModel: ContactsViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(state.openChatTarget) {
+        state.openChatTarget?.let {
+            onOpenChat(it.conversationId, it.otherUsername)
+            viewModel.consumeOpenChatTarget()
+        }
+    }
 
     Column(modifier = Modifier
         .fillMaxSize()
@@ -85,7 +94,8 @@ fun ContactsScreen(
                     ContactRowItem(
                         contact = contact,
                         onRespond = viewModel::respondToRequest,
-                        onRemove = viewModel::removeContact
+                        onRemove = viewModel::removeContact,
+                        onChat = { viewModel.openChat(contact.otherUserId, contact.otherUsername) }
                     )
                 }
             }
@@ -97,7 +107,8 @@ fun ContactsScreen(
 private fun ContactRowItem(
     contact: ContactWithProfile,
     onRespond: (contactId: String, accept: Boolean) -> Unit,
-    onRemove: (contactId: String) -> Unit
+    onRemove: (contactId: String) -> Unit,
+    onChat: () -> Unit
 ) {
     var showRemoveConfirm by remember { mutableStateOf(false) }
 
@@ -106,9 +117,16 @@ private fun ContactRowItem(
 
         when (contact.status) {
             "accepted" -> {
-                Text("Contact", style = MaterialTheme.typography.bodySmall)
-                TextButton(onClick = { showRemoveConfirm = true }) {
-                    Text("Remove")
+                Row(modifier = Modifier.padding(top = 4.dp)) {
+                    Button(onClick = onChat) {
+                        Text("Chat")
+                    }
+                    TextButton(
+                        onClick = { showRemoveConfirm = true },
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Text("Remove")
+                    }
                 }
             }
             "pending" -> if (contact.iAmRequester) {
