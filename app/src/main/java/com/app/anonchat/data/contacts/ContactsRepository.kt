@@ -85,6 +85,17 @@ class ContactsRepository @Inject constructor(
         }
     }
 
+    suspend fun removeContact(contactId: String): AuthResult<Unit> {
+        return try {
+            supabaseClient.postgrest["contacts"].delete {
+                filter { eq("id", contactId) }
+            }
+            AuthResult.Success(Unit)
+        } catch (e: Exception) {
+            AuthResult.Failure("Couldn't remove this contact.", AuthErrorCode.UNKNOWN)
+        }
+    }
+
     suspend fun getMyContacts(): List<ContactWithProfile> {
         val myId = currentUserId() ?: return emptyList()
 

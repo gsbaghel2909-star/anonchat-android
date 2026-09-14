@@ -85,4 +85,11 @@ class ContactsViewModel @Inject constructor(
             refresh()
         }
     }
+
+    fun removeContact(contactId: String) {
+        viewModelScope.launch {
+            contactsRepository.removeContact(contactId)
+            refresh()
+        }
+    }
 }

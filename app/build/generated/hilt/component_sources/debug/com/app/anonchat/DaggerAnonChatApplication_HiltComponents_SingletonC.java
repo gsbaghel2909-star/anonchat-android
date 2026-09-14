@@ -405,20 +405,20 @@ public final class DaggerAnonChatApplication_HiltComponents_SingletonC {
 
     @IdentifierNameString
     private static final class LazyClassKeyProvider {
+      static String com_app_anonchat_ui_auth_AuthViewModel = "com.app.anonchat.ui.auth.AuthViewModel";
+
       static String com_app_anonchat_ui_contacts_ContactsViewModel = "com.app.anonchat.ui.contacts.ContactsViewModel";
 
       static String com_app_anonchat_ui_profile_ProfileSetupViewModel = "com.app.anonchat.ui.profile.ProfileSetupViewModel";
 
-      static String com_app_anonchat_ui_auth_AuthViewModel = "com.app.anonchat.ui.auth.AuthViewModel";
+      @KeepFieldType
+      AuthViewModel com_app_anonchat_ui_auth_AuthViewModel2;
 
       @KeepFieldType
       ContactsViewModel com_app_anonchat_ui_contacts_ContactsViewModel2;
 
       @KeepFieldType
       ProfileSetupViewModel com_app_anonchat_ui_profile_ProfileSetupViewModel2;
-
-      @KeepFieldType
-      AuthViewModel com_app_anonchat_ui_auth_AuthViewModel2;
     }
   }
 
